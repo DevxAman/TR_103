@@ -31,6 +31,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            min-height: 100vh;
         }
 
         body::before {
@@ -144,8 +145,8 @@
         /* Day Grid */
         .days-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
             margin-bottom: 80px;
         }
 
@@ -154,12 +155,13 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(244, 196, 48, 0.1);
             border-radius: 16px;
-            padding: 30px;
+            padding: 0;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             animation: fadeInUp 0.6s ease-out backwards;
-            animation-delay: calc(var(--index) * 0.05s);
+            animation-delay: calc(var(--index) * 0.03s);
+            cursor: pointer;
         }
 
         .day-card::before {
@@ -172,6 +174,7 @@
             background: linear-gradient(135deg, rgba(244, 196, 48, 0.05) 0%, transparent 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .day-card:hover {
@@ -182,6 +185,21 @@
 
         .day-card:hover::before {
             opacity: 1;
+        }
+
+        .day-card:active {
+            transform: translateY(-4px);
+        }
+
+        .day-link {
+            display: block;
+            padding: 30px;
+            color: inherit;
+            text-decoration: none;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 2;
         }
 
         .day-number {
@@ -202,28 +220,27 @@
             line-height: 1.4;
         }
 
-        .day-link {
+        .view-notes {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             color: var(--text-dim);
-            text-decoration: none;
             font-size: 0.9rem;
             transition: all 0.3s ease;
             font-family: 'IBM Plex Mono', monospace;
         }
 
-        .day-link:hover {
+        .day-card:hover .view-notes {
             color: var(--accent);
             gap: 12px;
         }
 
-        .day-link::after {
+        .view-notes::after {
             content: '→';
             transition: transform 0.3s ease;
         }
 
-        .day-link:hover::after {
+        .day-card:hover .view-notes::after {
             transform: translateX(4px);
         }
 
@@ -234,7 +251,7 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
         }
 
@@ -259,6 +276,7 @@
             background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .project-card:hover {
@@ -310,6 +328,10 @@
         .project-link:hover {
             transform: translateX(5px);
             box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .project-link:active {
+            transform: translateX(2px);
         }
 
         /* Footer */
@@ -378,6 +400,7 @@
 
             .days-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .projects-grid {
@@ -386,6 +409,43 @@
 
             header {
                 padding: 40px 0 30px;
+            }
+
+            .day-link {
+                padding: 25px;
+            }
+
+            .project-card {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .day-link {
+                padding: 20px;
+            }
+
+            .day-title {
+                font-size: 1rem;
+            }
+
+            .day-number {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .day-card:active {
+                transform: translateY(-4px) scale(0.98);
+            }
+
+            .project-link:active {
+                transform: scale(0.95);
             }
         }
     </style>
@@ -396,7 +456,7 @@
     <div class="container">
         <header>
             <div class="logo-container">
-                <a href="https://www.gndec.ac.in/" target="_blank">
+                <a href="https://www.gndec.ac.in/" target="_blank" rel="noopener noreferrer">
                     <img src="https://srijansingh9.github.io/Training-102-Report/gndecLogo.png" alt="GNDEC Logo">
                 </a>
             </div>
@@ -410,177 +470,235 @@
                 <h2 class="section-header">Daily Learning Progress</h2>
                 <div class="days-grid">
                     <div class="day-card" style="--index: 0">
-                        <div class="day-number">Day 01</div>
-                        <div class="day-title">Introduction to Data Science</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-23.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-23.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 01</div>
+                            <div class="day-title">Introduction to Data Science</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 1">
-                        <div class="day-number">Day 02</div>
-                        <div class="day-title">Python and Jupyter Environment Setup</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-24.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-24.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 02</div>
+                            <div class="day-title">Python and Jupyter Environment Setup</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 2">
-                        <div class="day-number">Day 03</div>
-                        <div class="day-title">Python Basics and Data Types</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-25.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-25.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 03</div>
+                            <div class="day-title">Python Basics and Data Types</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 3">
-                        <div class="day-number">Day 04</div>
-                        <div class="day-title">Control Flow: Conditionals and Loops</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-26.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-26.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 04</div>
+                            <div class="day-title">Control Flow: Conditionals and Loops</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 4">
-                        <div class="day-number">Day 05</div>
-                        <div class="day-title">Functions and Modular Programming</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-27.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-27.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 05</div>
+                            <div class="day-title">Functions and Modular Programming</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 5">
-                        <div class="day-number">Day 06</div>
-                        <div class="day-title">Python Data Structures</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-28.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-28.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 06</div>
+                            <div class="day-title">Python Data Structures</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 6">
-                        <div class="day-number">Day 07</div>
-                        <div class="day-title">File Handling and CSV Processing</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-29.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-29.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 07</div>
+                            <div class="day-title">File Handling and CSV Processing</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 7">
-                        <div class="day-number">Day 08</div>
-                        <div class="day-title">NumPy Fundamentals</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-30.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-06-30.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 08</div>
+                            <div class="day-title">NumPy Fundamentals</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 8">
-                        <div class="day-number">Day 09</div>
-                        <div class="day-title">Advanced NumPy Operations</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-01.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-01.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 09</div>
+                            <div class="day-title">Advanced NumPy Operations</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 9">
-                        <div class="day-number">Day 10</div>
-                        <div class="day-title">Pandas Series and DataFrame Basics</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-02.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-02.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 10</div>
+                            <div class="day-title">Pandas Series and DataFrame Basics</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 10">
-                        <div class="day-number">Day 11</div>
-                        <div class="day-title">Data Cleaning Using Pandas</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-03.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-03.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 11</div>
+                            <div class="day-title">Data Cleaning Using Pandas</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 11">
-                        <div class="day-number">Day 12</div>
-                        <div class="day-title">Exploratory Data Analysis</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-04.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-04.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 12</div>
+                            <div class="day-title">Exploratory Data Analysis</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 12">
-                        <div class="day-number">Day 13</div>
-                        <div class="day-title">Data Visualization with Matplotlib and Seaborn</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-05.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-05.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 13</div>
+                            <div class="day-title">Data Visualization with Matplotlib and Seaborn</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 13">
-                        <div class="day-number">Day 14</div>
-                        <div class="day-title">EDA and Visualization Practice</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-06.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-06.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 14</div>
+                            <div class="day-title">EDA and Visualization Practice</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 14">
-                        <div class="day-number">Day 15</div>
-                        <div class="day-title">Descriptive Statistics and Distributions</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-07.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-07.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 15</div>
+                            <div class="day-title">Descriptive Statistics and Distributions</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 15">
-                        <div class="day-number">Day 16</div>
-                        <div class="day-title">Probability Concepts and Correlation Analysis</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-08.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-08.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 16</div>
+                            <div class="day-title">Probability Concepts and Correlation Analysis</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 16">
-                        <div class="day-number">Day 17</div>
-                        <div class="day-title">Introduction to Machine Learning</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-09.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-09.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 17</div>
+                            <div class="day-title">Introduction to Machine Learning</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 17">
-                        <div class="day-number">Day 18</div>
-                        <div class="day-title">Linear Regression Modeling</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-10.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-10.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 18</div>
+                            <div class="day-title">Linear Regression Modeling</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 18">
-                        <div class="day-number">Day 19</div>
-                        <div class="day-title">Classification: Logistic Regression and KNN</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-11.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-11.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 19</div>
+                            <div class="day-title">Classification: Logistic Regression and KNN</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 19">
-                        <div class="day-number">Day 20</div>
-                        <div class="day-title">Model Evaluation and Overfitting</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-12.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-12.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 20</div>
+                            <div class="day-title">Model Evaluation and Overfitting</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 20">
-                        <div class="day-number">Day 21</div>
-                        <div class="day-title">Introduction to Neural Networks</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-13.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-13.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 21</div>
+                            <div class="day-title">Introduction to Neural Networks</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 21">
-                        <div class="day-number">Day 22</div>
-                        <div class="day-title">Neural Network Implementation Basics</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-14.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-14.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 22</div>
+                            <div class="day-title">Neural Network Implementation Basics</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 22">
-                        <div class="day-number">Day 23</div>
-                        <div class="day-title">Mini Project: Dataset Selection</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-15.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-15.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 23</div>
+                            <div class="day-title">Mini Project: Dataset Selection</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 23">
-                        <div class="day-number">Day 24</div>
-                        <div class="day-title">Data Preprocessing and Feature Engineering</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-16.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-16.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 24</div>
+                            <div class="day-title">Data Preprocessing and Feature Engineering</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 24">
-                        <div class="day-number">Day 25</div>
-                        <div class="day-title">Baseline Model Training</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-17.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-17.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 25</div>
+                            <div class="day-title">Baseline Model Training</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 25">
-                        <div class="day-number">Day 26</div>
-                        <div class="day-title">Model Tuning and Comparison</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-18.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-18.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 26</div>
+                            <div class="day-title">Model Tuning and Comparison</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 26">
-                        <div class="day-number">Day 27</div>
-                        <div class="day-title">Result Analysis and Limitations</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-19.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-19.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 27</div>
+                            <div class="day-title">Result Analysis and Limitations</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 27">
-                        <div class="day-number">Day 28</div>
-                        <div class="day-title">Project Documentation and Report Writing</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-20.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-20.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 28</div>
+                            <div class="day-title">Project Documentation and Report Writing</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
 
                     <div class="day-card" style="--index: 28">
-                        <div class="day-number">Day 29</div>
-                        <div class="day-title">Final Review and Presentation</div>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-21.md" class="day-link" target="_blank">View Notes</a>
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/diary/2025-07-21.md" class="day-link" target="_blank" rel="noopener noreferrer">
+                            <div class="day-number">Day 29</div>
+                            <div class="day-title">Final Review and Presentation</div>
+                            <span class="view-notes">View Notes</span>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -591,18 +709,10 @@
                     <div class="project-card">
                         <div class="project-label">Data Science Project</div>
                         <h3 class="project-title">NEWS Analysis System</h3>
-                        <a href="https://github.com/DevxAman/TR_103/blob/main/automated_extraction_and_sentiment_annotation_of_news_articles_from_pdfs.py" class="project-link" target="_blank">
+                        <a href="https://github.com/DevxAman/TR_103/blob/main/automated_extraction_and_sentiment_annotation_of_news_articles_from_pdfs.py" class="project-link" target="_blank" rel="noopener noreferrer">
                             Explore Project
                         </a>
                     </div>
-
-                    <!-- <div class="project-card">
-                        <div class="project-label">NLP Project</div>
-                        <h3 class="project-title">SMS Spam Classifier</h3>
-                        <a href="https://github.com/AMANDEEP-SINGH-11/SMS-classifier/blob/main/SMS.py" class="project-link" target="_blank">
-                            Explore Project
-                        </a>
-                    </div> -->
                 </div>
             </section>
         </main>
@@ -612,19 +722,23 @@
                 Data Science Training Repository | GNDEC
             </p>
             <p class="footer-text">
-                <a href="https://www.gndec.ac.in/" class="footer-link" target="_blank">Visit GNDEC Website</a>
+                <a href="https://www.gndec.ac.in/" class="footer-link" target="_blank" rel="noopener noreferrer">Visit GNDEC Website</a>
             </p>
         </footer>
     </div>
 
     <script>
-        // Add smooth scroll behavior
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
 
@@ -643,8 +757,26 @@
             });
         }, observerOptions);
 
+        // Observe all cards
         document.querySelectorAll('.day-card, .project-card').forEach(card => {
             observer.observe(card);
+        });
+
+        // Add click feedback for touch devices
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.day-card, .project-card').forEach(card => {
+                card.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                card.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+        }
+
+        // Preload animations on page load
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
         });
     </script>
 </body>
